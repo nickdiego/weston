@@ -3995,8 +3995,8 @@ catch_signals(void)
 	action.sa_flags = SA_SIGINFO | SA_RESETHAND;
 	action.sa_sigaction = on_caught_signal;
 	sigemptyset(&action.sa_mask);
-	sigaction(SIGSEGV, &action, NULL);
-	sigaction(SIGABRT, &action, NULL);
+	//sigaction(SIGSEGV, &action, NULL);
+	//sigaction(SIGABRT, &action, NULL);
 }
 
 int main(int argc, char *argv[])

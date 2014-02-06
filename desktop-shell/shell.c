@@ -4889,8 +4889,11 @@ desktop_shell_sigchld(struct weston_process *process, int status)
 	shell->child.process.pid = 0;
 	shell->child.client = NULL; /* already destroyed by wayland */
 
-	/* if desktop-shell dies more than 5 times in 30 seconds, give up */
-	time = weston_compositor_get_time();
+	weston_log("################# %s died!!\n", shell->client);
+
+    /* if desktop-shell dies more than 5 times in 30 seconds, give up */
+#if 0
+    time = weston_compositor_get_time();
 	if (time - shell->child.deathstamp > 30000) {
 		shell->child.deathstamp = time;
 		shell->child.deathcount = 0;
@@ -4905,6 +4908,7 @@ desktop_shell_sigchld(struct weston_process *process, int status)
 	weston_log("%s died, respawning...\n", shell->client);
 	launch_desktop_shell_process(shell);
 	shell_fade_startup(shell);
+#endif
 }
 
 static void
@@ -4926,7 +4930,7 @@ launch_desktop_shell_process(void *data)
 	shell->child.client = weston_client_launch(shell->compositor,
 						 &shell->child.process,
 						 shell->client,
-						 desktop_shell_sigchld);
+						 NULL);
 
 	if (!shell->child.client)
 		weston_log("not able to start %s\n", shell->client);
